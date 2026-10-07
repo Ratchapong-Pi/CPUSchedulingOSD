@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เว็บการจัดตารางงานส่วนบุคคล ด้วย CPU Scheduling</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>เว็บการจัดตารางงานส่วนบุคคล ด้วย CPU Scheduling</h1>
+        <p>เปรียบเทียบการทำงานของ <strong>FCFS, SJF (Non-Preemptive) และ Round Robin</strong> ตามข้อกำหนดในใบงาน</p>
+        
+        <div class="controls">
+            <div>
+                <label for="taskCount">จำนวนงาน:</label>
+                <select id="taskCount">
+                    <option value="5">5 งาน</option>
+                    <option value="6">6 งาน</option>
+                </select>
+            </div>
+            <div>
+                <label for="timeQuantum">Time Quantum (q = 1-4):</label>
+                <input type="number" id="timeQuantum" value="2" min="1" max="4">
+            </div>
+            <button id="btnRandom">🎲 สุ่มโจทย์ใหม่</button>
+            <button id="btnCalculate" class="btn-solve">⚡ คำนวณผลลัพธ์</button>
+            <button id="btnPrint" class="btn-print">🖨️ พิมพ์/ส่งออก (Print)</button>
+        </div>
+    </div>
+
+    <!-- ส่วนที่ 1: รายการโจทย์ที่สุ่มได้ -->
+    <div class="card" id="taskInputSection">
+        <h2>1. รายการงานที่สุ่มได้ (Job Queue)</h2>
+        <table id="taskTable">
+            <thead>
+                <tr>
+                    <th>Process</th>
+                    <th>งานหรือวิชา</th>
+                    <th>Arrival Time (AT)</th>
+                    <th>Burst Time (BT)</th>
+                </tr>
+            </thead>
+            <tbody id="taskTableBody"></tbody>
+        </table>
+        <small>* หมายเหตุ: 1 หน่วยเวลา = 1 ชั่วโมงจำลอง, รับงานแล้วพร้อมเริ่มทันที</small>
+    </div>
+
+    <!-- ส่วนที่ 2: ผลลัพธ์การคำนวณ -->
+    <div id="resultsSection" style="display: none;">
+        <!-- FCFS -->
+        <div class="card">
+            <h2>2. First-Come, First-Served (FCFS)</h2>
+            <div id="fcfsGantt" class="gantt-chart"></div>
+            <table id="fcfsTable">
+                <thead>
+                    <tr><th>Process</th><th>AT</th><th>BT</th><th>CT</th><th>TAT</th><th>WT</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="summary-box" id="fcfsSummary"></div>
+        </div>
+
+        <!-- SJF -->
+        <div class="card">
+            <h2>3. Shortest Job First (SJF - Non Preemptive)</h2>
+            <div id="sjfGantt" class="gantt-chart"></div>
+            <table id="sjfTable">
+                <thead>
+                    <tr><th>Process</th><th>AT</th><th>BT</th><th>CT</th><th>TAT</th><th>WT</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="summary-box" id="sjfSummary"></div>
+        </div>
+
+        <!-- Round Robin -->
+        <div class="card">
+            <h2>4. Round Robin (RR)</h2>
+            <div id="rrGantt" class="gantt-chart"></div>
+            <table id="rrTable">
+                <thead>
+                    <tr><th>Process</th><th>AT</th><th>BT</th><th>CT</th><th>TAT</th><th>WT</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="summary-box" id="rrSummary"></div>
+        </div>
+
+        <!-- แผนภูมิแท่งเปรียบเทียบตามหน้า 5 -->
+        <div class="card">
+            <h2>5. ภาพเปรียบเทียบเวลารอเฉลี่ย (Average Waiting Time Comparison)</h2>
+            <div class="chart-container">
+                <div class="chart-title">Average waiting time in time units</div>
+                <div class="bar-chart" id="wtComparisonChart">
+                    <!-- แท่งกราฟถูกวาดด้วย JavaScript -->
+                </div>
+            </div>
+            <p class="chart-caption" id="chartCaptionText"></p>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
